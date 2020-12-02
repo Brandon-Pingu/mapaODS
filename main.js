@@ -33,17 +33,36 @@ let map = new mapboxgl.Map({
 });
 map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
+let cortina = document.getElementById('cortina');
+let cartaInfo = document.getElementById('carta-info');
+let imgCarta = document.getElementById('carta-info__img');
+let btnRegresar = document.getElementById('btn-regresar');
+
 for(let btn of btnsFiltros){
 	btn.addEventListener('click', () => {
 		let btnId = btn.id.substring(1, 3);
 		let texto = coloresMarcadores[btnId].ods;
 		mostrarTodosLosMarcadores(texto);
-
-		let cortina = document.getElementById('cortina');
+		
 		cortina.style.animation = 'slide .7s ease 1';
 		cortina.style.top = '-110%';
+		
+		
+
+		cartaInfo.style.animation = 'aparecer 1s linear 1';
+		cartaInfo.style.opacity = '1';
+
+		imgCarta.setAttribute('src', btn.getAttribute('src'));
 	});
 }
+
+btnRegresar.addEventListener('click', () => {
+	cortina.style.animation = 'slide2 .7s ease 1';
+	cortina.style.top = '0%';
+	
+	cartaInfo.style.animation = 'desAparecer 1s linear 1';
+	cartaInfo.style.opacity = '0';
+});
 
 const agregarMarcador = (cord1, cord2, ods) => {
     let element = document.createElement('div');
