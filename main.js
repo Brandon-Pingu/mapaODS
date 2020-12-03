@@ -46,8 +46,6 @@ for(let btn of btnsFiltros){
 		
 		cortina.style.animation = 'slide .7s ease 1';
 		cortina.style.top = '-110%';
-		
-		
 
 		cartaInfo.style.animation = 'aparecer 1s linear 1';
 		cartaInfo.style.opacity = '1';
@@ -57,14 +55,15 @@ for(let btn of btnsFiltros){
 }
 
 btnRegresar.addEventListener('click', () => {
-	cortina.style.animation = 'slide2 .7s ease 1';
+	cortina.style.animation = 'slide2 .7s ease-out 1';
 	cortina.style.top = '0%';
 	
 	cartaInfo.style.animation = 'desAparecer 1s linear 1';
 	cartaInfo.style.opacity = '0';
+	eliminarTodosMarcadores();
 });
 
-const agregarMarcador = (cord1, cord2, ods) => {
+const agregarMarcador = (cord1, cord2, ods, fecha) => {
     let element = document.createElement('div');
     let puntero;
     element.className = 'marker';
@@ -74,13 +73,22 @@ const agregarMarcador = (cord1, cord2, ods) => {
     	}
     }
     element.style.background = `url('${puntero}')`;
-    element.style.backgroundSize = 'cover';// para poder poner marcadores sobrepuestos
+	element.style.backgroundSize = 'cover';
     marcadores.push(element);
 
  	let marker = new mapboxgl.Marker(element).setLngLat({
         lng: cord1,
         lat: cord2
-    }).addTo(map);
+	});
+
+	let pop = new mapboxgl.Popup({
+		closeButton: false,
+		className: 'popUp',
+		maxWidth: '500px'
+	}).setHTML(`<h5>${ods}</h5><p>fecha: ${fecha}<br>dercripcion: </p>`);
+
+	marker.setPopup(pop) // add popup
+	marker.addTo(map);
 }
 
 const eliminarTodosMarcadores = () => {
@@ -98,19 +106,12 @@ const mostrarTodosLosMarcadores = (filtro) => {
 		return res.json()
 	})
 	.then(data => {
-		if (filtro == undefined) {
-			for(let dato in data){
-				agregarMarcador(data[dato]["Latitud"], data[dato]["Longitud"], data[dato]["ODS"]);
-			}
-		}else{
-			eliminarTodosMarcadores();
-			for(let dato in data){
-				if(data[dato]["ODS"] == filtro){
-					agregarMarcador(data[dato]["Latitud"], data[dato]["Longitud"], data[dato]["ODS"]);
-				}
+		for(let dato in data){
+			if (filtro == undefined){
+				agregarMarcador(data[dato]["Latitud"], data[dato]["Longitud"], data[dato]["ODS"], data[dato]["fecha"]);
+			}else if(data[dato]["ODS"] == filtro){
+				agregarMarcador(data[dato]["Latitud"], data[dato]["Longitud"], data[dato]["ODS"], data[dato]["fecha"]);
 			}
 		}
 	});
 }
-
-mostrarTodosLosMarcadores("ninguno");

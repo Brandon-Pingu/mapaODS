@@ -66,29 +66,10 @@ body {
     cursor: pointer;
     animation: aparecer 1s linear 1;
 }
-.marker::before{
-    content: '';
-    position: relative;
-    display: block;
-    opacity: 0;
-    transition: 1s;
-    width: 0;
-    height: 0;
-    z-index: 10;
-    border-radius: 20px;
-    top: 0;
-    left: 0;
-    background-color: #fcfcfc;
+.popUp{
+    font-family: sans-serif;
+    animation: aparecer .3s linear 1;
 }
-
-.marker:hover::before{
-    opacity: 1;
-    width: 200px;
-    height: 100px;
-    top: -100px;
-    left: -75px;
-}
-
 /* pantalla de botones */
 
 header{
