@@ -113,12 +113,25 @@ h1{
 .filtro{
     width: 70px;
     cursor: pointer;
-    position: relative;
+    box-shadow: -2px -2px 10px #0005, 5px 5px 10px #0005;
+}
+
+.filtro:hover, #todos:hover {
+    outline: 1px solid #000000;
+    filter: brightness(75%);
     
 }
 
-.filtro:hover {
-    outline: 1px solid #000000;
+#todos {
+    background: rgb(114, 24, 42);
+    color: #fff;
+    grid-column: 3 / span 3;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: -2px -2px 10px #0005, 5px 5px 10px #0005;
 }
 
 
